@@ -59,10 +59,16 @@ export class ReportsService {
   }
 
   async followPendingReports() {
-    const rangeIds = /\b([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])/;
-    const reports = await this.cacheManager.get<IRangeCacheReports[]>(
-      `${process.env.REPORT_CACHE_KEY}${rangeIds}`,
+    const reportScopeKeys = (await this.cacheManager.store.keys()).filter(
+      (key) =>
+        key.includes(process.env.REPORT_CACHE_KEY) ||
+        key.includes(process.env.ERROR_REPORT_CACHE_KEY) ||
+        key.includes(process.env.RE_PROCESSING_REPORT_CACHE_KEY),
     );
+
+    const reports = (await this.cacheManager.store.mget(
+      ...reportScopeKeys,
+    )) as IRangeCacheReports[];
 
     if (reports.length === 0) {
       return;
@@ -205,7 +211,10 @@ export class ReportsService {
           const errReport = new ErrorReportEntity(
             {
               filename: claimReport.filename,
-              status: $Enums.Status.RE_PROCESSING,
+              status:
+                cachedTarget.failAttempts >= 3
+                  ? $Enums.Status.ERROR
+                  : $Enums.Status.RE_PROCESSING,
               //Adicionar mais props
             },
             target,
@@ -229,8 +238,6 @@ export class ReportsService {
               },
             });
           } else if (cachedTarget.failAttempts >= 3) {
-            errReport._deps.status = $Enums.Status.ERROR;
-
             await this.reportErrorService.leakAttempts(errReport);
             await this.prismaService.report.update({
               where: {
