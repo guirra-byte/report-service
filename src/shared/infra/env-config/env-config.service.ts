@@ -31,7 +31,7 @@ export class EnvConfigService implements EnvConfig {
 
     for (const key in process.env) {
       if (key.includes('_CACHE_KEY')) {
-        const cacheKey = this.configService.get(key);
+        const cacheKey = this.configService.get(process.env[key]);
 
         if (cacheKey) {
           redisCacheKeys.push(cacheKey);
