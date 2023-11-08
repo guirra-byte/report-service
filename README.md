@@ -13,5 +13,3 @@ O "Sistema de Geração de Relatórios" é um projeto destinado a praticar e apl
 4. **Filas de Processamento com BullMQ**: Usamos a biblioteca BullMQ para criar filas de processamento que lidam com tarefas de geração de relatórios de forma eficiente, escalável e confiável.
 
 5. **Testes Unitários e de Integração**: Realizamos testes abrangentes para garantir que nosso sistema funcione de maneira confiável e atenda a todos os requisitos.
-
-Este projeto oferece uma oportunidade única para aprofundar o entendimento desses conceitos avançados e aplicá-los em um contexto prático. Além disso, ajudará a construir um sistema de geração de relatórios poderoso e eficiente que pode ser valioso em várias aplicações.
