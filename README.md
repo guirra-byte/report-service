@@ -1,15 +1,17 @@
-# WEB - Geração de relatório
+# Sistema de Geração de Relatórios Avançado
 
-/reports
+O "Sistema de Geração de Relatórios Avançado" é um projeto destinado a praticar e aplicar uma série de conceitos de programação avançados em um ambiente do mundo real. Este projeto abrange diversas tecnologias e técnicas, incluindo:
 
-# O Client faz a requisição do relatório e essa requisição irá ser encaminhada para uma fila de processamento;
+## Principais Componentes:
 
-# Caso a geração do relatório falhar, o client deve ser avisado em tempo real e o relatório deve ser encaminhado para uma fila de reprocessamento;
+1. **Nest.Js**: Utilizamos o framework Nest.Js para construir a estrutura da nossa aplicação, criando APIs RESTful eficientes e confiáveis.
 
-# O Client pode solicitar o agendamento da entrega do relatório -> Data de entrega;
+2. **Gerenciamento de Threads**: Implementamos uma abordagem de processamento paralelo usando threads para otimizar o desempenho na geração de relatórios.
 
-# Definição de prioridade na fila de processamento e recorrência - Cron Job;
+3. **Atomics e SharedArrayBuffer**: Aplicamos os conceitos de Atomics e SharedArrayBuffer para garantir a comunicação e sincronização seguras entre as threads e obter um desempenho aprimorado.
 
-# Utilizar o poder de processamento do GoLang para gerar múltiplos processos de geração de relatório em PDF a partir da fila de processamento;
+4. **Filas de Processamento com BullMQ**: Usamos a biblioteca BullMQ para criar filas de processamento que lidam com tarefas de geração de relatórios de forma eficiente, escalável e confiável.
 
-# Notificações em tempo real;
+5. **Testes Unitários e de Integração**: Realizamos testes abrangentes para garantir que nosso sistema funcione de maneira confiável e atenda a todos os requisitos.
+
+Este projeto oferece uma oportunidade única para aprofundar o entendimento desses conceitos avançados e aplicá-los em um contexto prático. Além disso, ajudará a construir um sistema de geração de relatórios poderoso e eficiente que pode ser valioso em várias aplicações.
