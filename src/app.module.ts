@@ -7,7 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import type { RedisClientOptions } from 'redis';
 import { redisStore } from 'cache-manager-redis-store';
 import { CacheModule } from '@nestjs/cache-manager';
-import { LogsModule } from './modules/logs/logs.module';
+import { LogsModule } from './modules/log/logs.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigModule } from '@nestjs/config';
 import { EnvConfigModule } from './shared/infra/env-config/env-config.module';

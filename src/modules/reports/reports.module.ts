@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { ReportsController } from './reports.controller';
 import { BullModule } from '@nestjs/bull';
-import { LogsService } from '../logs/logs.service';
+import { LogsService } from '../log/logs.service';
 import { PrismaService } from '../../prisma/prisma/prisma.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ReportErrorService } from './report-error.service';

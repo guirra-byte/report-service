@@ -8,7 +8,7 @@ import { distributtingWorkers } from './worker/reports.worker-thread';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { FollowReportDTO } from './dtos/follow-report.dto';
-import { LogsService } from '../logs/logs.service';
+import { LogsService } from '../log/logs.service';
 import { ReportLog } from './entities/report-log.entity';
 import { ReportErrorService } from './report-error.service';
 import { ErrorReportEntity } from './entities/error-report.entity';
