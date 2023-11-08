@@ -1,6 +1,6 @@
 # Sistema de Geração de Relatórios
 
-O "Sistema de Geração de Relatórios" é um projeto destinado a praticar e aplicar uma série de conceitos de programação avançados em um ambiente do mundo real. Este projeto abrange diversas tecnologias e técnicas, incluindo:
+O "Sistema de Geração de Relatórios" é um projeto destinado a praticar e aplicar uma série de conceitos. Este projeto abrange diversas tecnologias e técnicas, incluindo:
 
 ## Principais Componentes:
 
