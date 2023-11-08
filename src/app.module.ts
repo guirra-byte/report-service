@@ -9,9 +9,12 @@ import { redisStore } from 'cache-manager-redis-store';
 import { CacheModule } from '@nestjs/cache-manager';
 import { LogsModule } from './modules/logs/logs.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ConfigModule } from '@nestjs/config';
+import { EnvConfigModule } from './shared/infra/env-config/env-config.module';
 
 @Module({
   imports: [
+    ConfigModule,
     ReportsModule,
     PrismaModule,
     LogsModule,
@@ -27,6 +30,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
         }),
       isGlobal: true,
     }),
+    EnvConfigModule,
   ],
   controllers: [AppController],
   providers: [AppService],
