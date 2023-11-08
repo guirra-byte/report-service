@@ -19,7 +19,7 @@ export class ReportErrorService {
           `${process.env.REPORT_CACHE_KEY}${props._parent}`,
           {
             id: props._parent,
-            status: $Enums.Status.RE_PROCESSING,
+            status: props._deps.status,
             scheduled: false,
             failAttempts: props._failAttempts,
           },
