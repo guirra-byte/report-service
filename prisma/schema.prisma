@@ -12,7 +12,7 @@ datasource db {
 
 model Report {
   id          Int       @id() @default(autoincrement())
-  filename    String?
+  filename    String?   @unique()
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt()
   status      Status
