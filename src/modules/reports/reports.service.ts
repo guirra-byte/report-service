@@ -13,20 +13,9 @@ export interface IWorkerData {
   arr: Int32Array;
 }
 
-interface IRangeCacheReports {
-  id: number;
-  status: $Enums.Status;
-  scheduled: boolean;
-  failAttempts: number;
-}
-
 @Injectable()
 export class ReportsService {
   private processor: string;
-
-  private reports: Report[] = [];
-  private doneReports: Report[] = [];
-  private errorReports: Report[] = [];
 
   constructor(
     @Inject('PrismaService') private prismaService: PrismaService,
