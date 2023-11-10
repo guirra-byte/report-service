@@ -6,19 +6,11 @@ export class ErrorReportEntity<T> {
   private parentId: number;
   private parentQueueKey: string;
 
-  private failAttempts?: number;
-  private errLogMessage?: string;
   private deps: T;
 
-  constructor(
-    props: T,
-    parentId: number,
-    parentQueueKey: string,
-    repeatAttempts?: number,
-  ) {
+  constructor(props: T, parentId: number, parentQueueKey: string) {
     this.id = randomUUID();
     this.at = new Date().toISOString();
-    this.failAttempts = repeatAttempts ?? 3;
     this.deps = props;
     this.parentId = parentId;
     this.parentQueueKey = parentQueueKey;
@@ -26,10 +18,6 @@ export class ErrorReportEntity<T> {
 
   get _id(): string {
     return this.id;
-  }
-
-  get _failAttempts(): number {
-    return this.failAttempts;
   }
 
   get _deps(): T {
@@ -40,19 +28,11 @@ export class ErrorReportEntity<T> {
     return this.at;
   }
 
-  get _errorMessage(): string {
-    return this.errLogMessage;
-  }
-
   get _parent(): number {
     return this.parentId;
   }
 
   get _queueKey(): string {
     return this.parentQueueKey;
-  }
-
-  set _fail(attempts: number) {
-    this.failAttempts = attempts + 1;
   }
 }
