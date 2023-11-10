@@ -7,5 +7,7 @@ export interface INamedJobOptions {
 }
 
 export const namedJobs: Record<string, INamedJobOptions[]> = {
-  ['logs']: [{ jobName: 'gen' }] as INamedJobOptions[],
+  ['logs']: [{ jobName: 'gen' }],
+  ['reports']: [{ jobName: 'produce ' }],
+  ['reporterror']: [{ jobName: 'onerror', attempts: 3 }],
 };
