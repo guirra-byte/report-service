@@ -1,22 +1,17 @@
 import { Process, Processor } from '@nestjs/bull';
-import { ErrorReportEntity } from '../model/error-report.entity';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject } from '@nestjs/common';
-import { Cache } from 'cache-manager';
-import { $Enums } from '@prisma/client';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../../../prisma/prisma/prisma.service';
 import { reportPDFProvider } from '../../../shared/infra/providers/report-pdf.provider';
 
 interface IReProduceReport {
   reportId: number;
-  attempts: number;
+  delay: number;
 }
 
 @Processor('reporterror')
 export class ReportErrorConsumer {
   constructor(
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @Inject('EventService') private eventEmitterService: EventEmitter2,
     @Inject('PrismaService') private prismaService: PrismaService,
   ) { }
@@ -33,13 +28,30 @@ export class ReportErrorConsumer {
       return;
     }
 
-    try {
-      await reportPDFProvider({
-        content: `${toReProduce.filename}-${toReProduce.id}`,
-        filename: toReProduce.filename,
-      });
-    } catch (error) {
-      throw new Error(error);
+    let reProduceAttempts = props.delay;
+    let delay = 1;
+    while (reProduceAttempts > 0) {
+      try {
+        await reportPDFProvider({
+          content: `${toReProduce.filename}-${toReProduce.id}`,
+          filename: toReProduce.filename,
+        });
+      } catch (error) {
+        if (reProduceAttempts === 0 && delay === props.delay) {
+          this.eventEmitterService.emit('reproduce@leak', {
+            id: props.reportId,
+            errMsg: `${error}`,
+          });
+        } else {
+          setTimeout(() => {
+            reProduceAttempts--;
+          }, 1000 * delay);
+
+          delay++;
+        }
+      }
     }
+
+    return {};
   }
 }
