@@ -14,4 +14,4 @@ O "Sistema de Geração de Relatórios" é um projeto destinado a praticar e apl
 
 5. **`Testes Unitários e de Integração`**: Realizamos testes abrangentes para garantir que nosso sistema funcione de maneira confiável e atenda a todos os requisitos.
 
-6. **`Tempo Real com SSE (Server Sent Events)`**: O sistema oferecerá atualizações em tempo real para os relatórios em exibição, permitindo que os usuários sejam alertados quando houver uma alteração no status de processamento do relatório.
+6. **`Tempo Real com SSE (Server Sent Events)`**: O sistema oferecerá atualizações em tempo real para os relatórios em exibição, permitindo que os usuários sejam alertados em tempo real quando houver uma alteração no status de processamento do relatório.
