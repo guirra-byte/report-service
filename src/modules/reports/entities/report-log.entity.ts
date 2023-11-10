@@ -1,7 +1,8 @@
 import { $Enums } from '@prisma/client';
-import { LogEntity } from '../../log/model/log.entity';
+import { LogEntity } from '../../log/model/log.model';
 
 export interface IReportLog {
+  reqId: number;
   status: $Enums.Status;
   filename: string;
 }
