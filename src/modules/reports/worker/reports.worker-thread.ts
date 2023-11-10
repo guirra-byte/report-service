@@ -1,12 +1,17 @@
 import { isMainThread, Worker, workerData, parentPort } from 'worker_threads';
-import { IWorkerData } from '../reports.service';
-import { ReportsService } from '../reports.service';
 import { reportPDFProvider } from '../../../shared/infra/providers/report-pdf.provider';
 import { PrismaService } from '../../../prisma/prisma/prisma.service';
+import { IWorkerData, ReportsService } from '../reports.service';
+import { Queue } from 'bull';
+
+export interface QueueDataTransfer {
+  instance: Queue;
+  queue: string;
+}
 
 export const distributtingWorkers = async (
   incommingWorkerData: IWorkerData,
-  reportsService: ReportsService,
+  queueDataTransfer: QueueDataTransfer,
 ) => {
   const worker = new Worker(__filename, {
     workerData: incommingWorkerData,
@@ -17,11 +22,19 @@ export const distributtingWorkers = async (
   });
 
   worker.on('message', (target: number[]) => {
-    reportsService.dequeue(target, 'DONE');
+    const { instance, queue } = queueDataTransfer;
+    instance.emit(`${queue}@done`, {
+      target,
+      status: 'DONE',
+    });
   });
 
-  worker.on('messageerror', (errorTargets: number[]) => {
-    reportsService.dequeue(errorTargets, 'ERROR');
+  worker.on('messageerror', (target: number[]) => {
+    const { instance, queue } = queueDataTransfer;
+    instance.emit(`${queue}@error`, {
+      target,
+      status: 'ERROR',
+    });
   });
 };
 
