@@ -1,10 +1,10 @@
 import { Controller, Get, Res } from '@nestjs/common';
-import { ReportsService } from './reports.service';
 import { Sse } from '@nestjs/common';
 import { MessageEvent } from '@nestjs/common';
 import { Observable, defer, map, repeat, tap } from 'rxjs';
 import { $Enums } from '@prisma/client';
 import { Response } from 'express';
+import { ReportsService } from './reports.service';
 
 @Controller('reports')
 export class ReportsController {
