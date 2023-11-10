@@ -8,11 +8,11 @@ interface IReportProps {
 }
 
 export class Report {
-  private _id: number;
+  private id: number;
   private filename?: string;
   private created_at: Date;
-  private _status: $Enums.Status;
-  private _scheduled: boolean;
+  private status: $Enums.Status;
+  private scheduled: boolean;
   private delivery_at?: Date;
 
   constructor(props: IReportProps) {
@@ -20,24 +20,32 @@ export class Report {
     this.created_at = new Date();
 
     if (props.scheduled) {
-      this._scheduled = props.scheduled;
+      this.scheduled = props.scheduled;
       this.delivery_at = props.delivery_at;
     }
   }
 
-  get status(): $Enums.Status {
+  get _status(): $Enums.Status {
     return this.status;
   }
 
-  get id(): number {
-    return this._id;
+  get _id(): number {
+    return this.id;
   }
 
   get createdAt(): Date {
     return this.created_at;
   }
 
-  get scheduled(): boolean {
+  get deliveryAt(): Date {
+    return this.delivery_at;
+  }
+
+  get _scheduled(): boolean {
     return this.scheduled;
+  }
+
+  get _filename(): string {
+    return this.filename;
   }
 }
