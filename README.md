@@ -1,6 +1,6 @@
 # Sistema de Geração de Relatórios
 
-O "Sistema de Geração de Relatórios" é um projeto destinado a praticar e aplicar uma série de conceitos. Este projeto abrange diversas tecnologias e técnicas, incluindo:
+O "Sistema de Geração de Relatórios" é um simples projeto destinado a praticar e aplicar uma série de conceitos. Este projeto abrange diversas tecnologias e técnicas, incluindo:
 
 ## Principais Componentes:
 
@@ -12,6 +12,4 @@ O "Sistema de Geração de Relatórios" é um projeto destinado a praticar e apl
 
 4. **`Filas de Processamento com BullMQ`**: Usamos a biblioteca BullMQ para criar filas de processamento que lidam com tarefas de geração de relatórios de forma eficiente, escalável e confiável.
 
-5. **`Testes Unitários e de Integração`**: Realizamos testes abrangentes para garantir que nosso sistema funcione de maneira confiável e atenda a todos os requisitos.
-
-6. **`Tempo Real com SSE (Server Sent Events)`**: O sistema oferecerá atualizações em tempo real para os relatórios em exibição, permitindo que os usuários sejam alertados em tempo real quando houver uma alteração no status de processamento do relatório.
+5. **`Tempo Real com SSE (Server Sent Events)`**: O sistema oferecerá atualizações em tempo real para os relatórios em exibição, permitindo que os usuários sejam alertados em tempo real quando houver uma alteração no status de processamento do relatório.
