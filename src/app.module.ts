@@ -7,7 +7,6 @@ import { PrismaModule } from './prisma/prisma.module';
 import type { RedisClientOptions } from 'redis';
 import { redisStore } from 'cache-manager-redis-store';
 import { CacheModule } from '@nestjs/cache-manager';
-import { LogsModule } from './modules/log/logs.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigModule } from '@nestjs/config';
 import { EnvConfigModule } from './shared/infra/env-config/env-config.module';
@@ -17,7 +16,6 @@ import { EnvConfigModule } from './shared/infra/env-config/env-config.module';
     ConfigModule,
     ReportsModule,
     PrismaModule,
-    LogsModule,
     EventEmitterModule.forRoot(),
     CacheModule.register<RedisClientOptions>({
       //@ts-ignore
@@ -35,4 +33,4 @@ import { EnvConfigModule } from './shared/infra/env-config/env-config.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

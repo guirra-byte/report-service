@@ -2,8 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { $Enums } from '@prisma/client';
 import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
-import { LogsService } from '../log/logs.service';
-import { PrismaService } from '../../prisma/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { FollowReportDTO } from './dtos/follow-report.dto';
 import { ReportDTO } from './dtos/report.dto';
 import { Report } from './entities/report.entity';
@@ -19,7 +18,6 @@ export class ReportsService {
 
   constructor(
     @Inject('PrismaService') private prismaService: PrismaService,
-    @Inject('LogsService') private logsService: LogsService,
     @InjectQueue('reports') private reportsQueue: Queue,
   ) {
     this.processor = 'reports';

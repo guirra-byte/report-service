@@ -1,7 +1,7 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Inject } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { PrismaService } from '../../../prisma/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { reportPDFProvider } from '../../../shared/infra/providers/report-pdf.provider';
 
 interface IReProduceReport {
@@ -14,7 +14,7 @@ export class ReportErrorConsumer {
   constructor(
     @Inject('EventService') private eventEmitterService: EventEmitter2,
     @Inject('PrismaService') private prismaService: PrismaService,
-  ) { }
+  ) {}
 
   @Process('onerror')
   async reProduce(props: IReProduceReport) {

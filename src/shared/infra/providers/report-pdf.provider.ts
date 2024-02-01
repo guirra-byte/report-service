@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import { reportPDFOutDir } from '../../../modules/config/report-pdf-path.config';
+import { reportOutDir } from '../../../modules/config/report-pdf-path.config';
 
 export interface IReportPDFProvider {
   filename: string;
@@ -10,7 +10,7 @@ export const reportPDFProvider = async (
   report: IReportPDFProvider,
 ): Promise<jsPDF> => {
   const docReport = new jsPDF().text(report.content, 10, 10);
-  const pathToSave = `${reportPDFOutDir}/${report.filename}`;
+  const pathToSave = `${reportOutDir}/${report.filename}`;
   docReport.save(pathToSave);
 
   return docReport;

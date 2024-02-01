@@ -1,6 +1,6 @@
 import { isMainThread, Worker, workerData, parentPort } from 'worker_threads';
 import { reportPDFProvider } from '../../../shared/infra/providers/report-pdf.provider';
-import { PrismaService } from '../../../prisma/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { IWorkerData, ReportsService } from '../reports.service';
 import { Queue } from 'bull';
 

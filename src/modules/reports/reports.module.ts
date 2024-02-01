@@ -3,7 +3,7 @@ import { ReportsService } from './reports.service';
 import { ReportsController } from './reports.controller';
 import { BullModule } from '@nestjs/bull';
 import { LogsService } from '../log/logs.service';
-import { PrismaService } from '../../prisma/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ReportErrorService } from './report-error.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
@@ -39,4 +39,4 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
     },
   ],
 })
-export class ReportsModule { }
+export class ReportsModule {}

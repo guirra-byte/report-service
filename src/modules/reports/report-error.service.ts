@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Job, Queue } from 'bull';
 import { ErrorReportEntity } from './entities/error-report.entity';
 import { $Enums } from '@prisma/client';
-import { PrismaService } from '../../prisma/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { OnEvent } from '@nestjs/event-emitter';
 import { ReportDTO } from './dtos/report.dto';
 
@@ -18,7 +18,7 @@ export class ReportErrorService {
     @InjectQueue('reporterror') private reportsErrQueue: Queue,
     @InjectQueue('report') private reportsQueue: Queue,
     @Inject('PrismaService') private prismaService: PrismaService,
-  ) { }
+  ) {}
 
   async reProduce(props: ErrorReportEntity<any>) {
     if (props._queueKey) {

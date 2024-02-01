@@ -1,14 +1,15 @@
-import { Controller, Get, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, Param } from '@nestjs/common';
 import { Sse } from '@nestjs/common';
 import { MessageEvent } from '@nestjs/common';
 import { Observable, defer, map, repeat, tap } from 'rxjs';
 import { $Enums } from '@prisma/client';
 import { Response } from 'express';
 import { ReportsService } from './reports.service';
+import { ReportDTO } from './dtos/report.dto';
 
 @Controller('reports')
 export class ReportsController {
-  constructor(private readonly reportsService: ReportsService) { }
+  constructor(private readonly reportsService: ReportsService) {}
 
   @Sse('/:owner-id/follow/done')
   async doneReports(
@@ -38,6 +39,22 @@ export class ReportsController {
     );
   }
 
+  @Get('/:owner_id/follow')
+  async reports() {
+    return this.reportsService.followReports();
+  }
+
+  @Post('/:owner_id/')
+  async produce(
+    @Param('owner_id') owner_id: string,
+    @Body() data: ReportDTO,
+    @Res() response: Response,
+  ) {
+    await this.reportsService.produce(data);
+    response.location(`/:${owner_id}/follow/done`);
+    return response.status(202).send(`Your request are accepted!`);
+  }
+
   @Sse('/:owner_id/follow/error')
   async errReports(
     @Res() response: Response,
@@ -64,10 +81,5 @@ export class ReportsController {
         data: reports.filter((report) => report.status === $Enums.Status.ERROR),
       })),
     );
-  }
-
-  @Get('/:owner_id/follow')
-  async reports() {
-    return this.reportsService.followReports();
   }
 }
