@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ReportsModule } from './modules/reports/reports.module';
 import { PrismaModule } from './prisma/prisma.module';
 import type { RedisClientOptions } from 'redis';
@@ -30,7 +28,7 @@ import { EnvConfigModule } from './shared/infra/env-config/env-config.module';
     }),
     EnvConfigModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
