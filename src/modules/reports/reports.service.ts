@@ -6,7 +6,6 @@ import { PrismaService } from '../../shared/infra/prisma/prisma.service';
 import { FollowReportDTO } from './dtos/follow-report.dto';
 import { ReportDTO } from './dtos/report.dto';
 import { Report } from './entities/report.entity';
-import { namedJobs } from '../../config/namedJobs.config';
 
 export interface IWorkerData {
   arr: Int32Array;
@@ -69,16 +68,7 @@ export class ReportsService {
   async produce(report: ReportDTO) {
     const newReport = new Report(report);
 
-    const ctxNamedJob = 'produce';
-    const ctxQueueNamedJobs = namedJobs[this.processor].find(
-      (nmdJob) => nmdJob.jobName === ctxNamedJob,
-    );
-
-    if (!ctxQueueNamedJobs) {
-      throw new Error('Named job is not defined!');
-    }
-
-    await this.reportsQueue.add(ctxNamedJob, newReport, {
+    await this.reportsQueue.add('produce', newReport, {
       removeOnComplete: true,
     });
   }
