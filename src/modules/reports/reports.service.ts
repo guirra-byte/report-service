@@ -7,10 +7,6 @@ import { FollowReportDTO } from './dtos/follow-report.dto';
 import { ReportDTO } from './dtos/report.dto';
 import { Report } from './entities/report.entity';
 
-export interface IWorkerData {
-  arr: Int32Array;
-}
-
 @Injectable()
 export class ReportsService {
   private processor: string;
