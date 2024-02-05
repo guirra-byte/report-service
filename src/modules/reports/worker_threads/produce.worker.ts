@@ -2,7 +2,7 @@ import { parentPort } from 'worker_threads';
 import { MessageDTO } from './ballance.worker';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { reportOutDir } from 'src/modules/config/report-path.config';
+import { reportOutDir } from 'src/config/report-path.config';
 
 const baseTxt = `\n Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

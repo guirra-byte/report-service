@@ -6,7 +6,7 @@ import { PrismaService } from '../../shared/infra/prisma/prisma.service';
 import { FollowReportDTO } from './dtos/follow-report.dto';
 import { ReportDTO } from './dtos/report.dto';
 import { Report } from './entities/report.entity';
-import { namedJobs } from '../config/namedJobs.config';
+import { namedJobs } from '../../config/namedJobs.config';
 
 export interface IWorkerData {
   arr: Int32Array;

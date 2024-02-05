@@ -2,7 +2,7 @@ import { $Enums } from '@prisma/client';
 import { parentPort } from 'worker_threads';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { reportOutDir } from 'src/modules/config/report-path.config';
+import { reportOutDir } from 'src/config/report-path.config';
 import { Worker } from 'worker_threads';
 
 export interface MessageDTO {

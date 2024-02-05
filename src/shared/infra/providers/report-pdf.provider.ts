@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import { reportOutDir } from '../../../modules/config/report-path.config';
+import { reportOutDir } from '../../../config/report-path.config';
 
 export interface IReportPDFProvider {
   filename: string;
