@@ -1,6 +1,6 @@
 import { Inject } from '@nestjs/common';
 import { Report } from '../entities/report.entity';
-import { PrismaService } from '../../../prisma/prisma.service';
+import { PrismaService } from '../../../shared/infra/prisma/prisma.service';
 import { ReportDTO } from '../dtos/report.dto';
 import { $Enums } from '@prisma/client';
 import { ReportErrorService } from '../report-error.service';
@@ -9,11 +9,8 @@ import { InjectQueue } from '@nestjs/bull';
 import { Processor, Process } from '@nestjs/bull';
 import { ReportsService } from '../reports.service';
 import { Worker } from 'worker_threads';
-import { MessageDTO } from '../worker/ballance.worker';
-
-export interface IWorkerData {
-  arr: Int32Array;
-}
+import { MessageDTO } from '../worker_threads/ballance.worker';
+import { ErrorReportEntity } from '../entities/error-report.entity';
 
 @Processor('reports')
 export class ReportsConsumer {
@@ -42,6 +39,7 @@ export class ReportsConsumer {
     ]);
 
     const data = reqReportsRefs.map((req) => req.data);
+
     const ballanceWorker = new Worker('../worker/ballance.worker.ts');
     this.reportsQueue.on('completed', async (arg: Job<MessageDTO>) => {
       await this.prismaService.report.update({
@@ -61,6 +59,14 @@ export class ReportsConsumer {
           status: $Enums.Status.RE_PROCESSING,
         },
       });
+
+      const err = new ErrorReportEntity<MessageDTO>(
+        { ...arg.data },
+        arg.data.id,
+        'reports',
+      );
+
+      await this.reportErrorService.reProduce(err);
     });
 
     ballanceWorker.on('message', (args: { [key: string]: number[] }) => {

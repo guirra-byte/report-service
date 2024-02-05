@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Module } from '@nestjs/common';
 import { ReportsModule } from './modules/reports/reports.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { PrismaModule } from './shared/infra/prisma/prisma.module';
 import type { RedisClientOptions } from 'redis';
 import { redisStore } from 'cache-manager-redis-store';
 import { CacheModule } from '@nestjs/cache-manager';

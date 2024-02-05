@@ -21,9 +21,7 @@ export class ReportsController {
       }),
       tap((reports) => {
         const finishedReport = reports.every(
-          (report) =>
-            report.status === $Enums.Status.DONE ||
-            report.status === $Enums.Status.ERROR,
+          (report) => report.status === $Enums.Status.DONE,
         );
 
         if (finishedReport) {
@@ -53,33 +51,5 @@ export class ReportsController {
     await this.reportsService.produce(data);
     response.location(`/:${owner_id}/follow/done`);
     return response.status(202).send(`Your request are accepted!`);
-  }
-
-  @Sse('/:owner_id/follow/error')
-  async errReports(
-    @Res() response: Response,
-  ): Promise<Observable<MessageEvent>> {
-    return defer(async () => await this.reportsService.followReports()).pipe(
-      repeat({
-        delay: 5000,
-      }),
-      tap((reports) => {
-        const finishedReport = reports.every(
-          (report) =>
-            report.status === $Enums.Status.DONE ||
-            report.status === $Enums.Status.ERROR,
-        );
-
-        if (finishedReport) {
-          setTimeout(() => {
-            response.end();
-          }, 5000);
-        }
-      }),
-      map((reports) => ({
-        type: 'message',
-        data: reports.filter((report) => report.status === $Enums.Status.ERROR),
-      })),
-    );
   }
 }

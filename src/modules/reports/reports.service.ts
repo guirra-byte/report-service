@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { $Enums } from '@prisma/client';
 import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '../../shared/infra/prisma/prisma.service';
 import { FollowReportDTO } from './dtos/follow-report.dto';
 import { ReportDTO } from './dtos/report.dto';
 import { Report } from './entities/report.entity';
