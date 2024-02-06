@@ -8,6 +8,7 @@ import { Worker } from 'worker_threads';
 export interface MessageDTO {
   id: number;
   filename: string;
+  xlsxAssets: string[];
   created_at: Date;
   updated_at: Date;
   status: $Enums.Status;
@@ -17,7 +18,7 @@ export interface MessageDTO {
 
 parentPort.on('message', (incomming_data: MessageDTO[]) => {
   let range = 10;
-  const produceWorker = new Worker('./produce.worker.ts');
+  const xlsxWorker = new Worker('./xlsx-reader.worker.ts');
   const targetElements: MessageDTO[] = [];
 
   const onDemandExec = () => {
@@ -37,19 +38,21 @@ parentPort.on('message', (incomming_data: MessageDTO[]) => {
         }
       }
 
-      produceWorker.postMessage(targetElements);
+      xlsxWorker.postMessage(targetElements);
       incomming_data.splice(0, targetElements.length + duplicatedFiles.length);
       range = 0;
       break;
     }
   };
 
-  produceWorker.on('message', (args: { [key: string]: number[] }) => {
+  xlsxWorker.on('message', (args: { [key: string]: number[] }) => {
     parentPort.postMessage(args);
 
     if (incomming_data.length > 0) {
       onDemandExec();
     }
+
+    parentPort.close();
   });
 });
 

@@ -18,24 +18,20 @@ export class ReportsService {
     this.processor = 'reports';
   }
 
-  async followReports(): Promise<FollowReportDTO[]> {
+  async reports(): Promise<FollowReportDTO[]> {
     return this.prismaService.report.findMany();
   }
 
-  async followPendingReports() {
-    const reports = await this.followReports();
-
-    if (reports.length === 0) {
-      return;
-    }
-
-    const pendingReportsRefs = reports.map((rp) => {
-      if (rp.status === $Enums.Status.PENDING) {
-        return rp.id;
-      }
+  async cancel(ids: number[]) {
+    const reports = (
+      await this.prismaService.report.findMany({
+        where: { id: { in: ids } },
+      })
+    ).map((rprt) => {
+      return rprt.id;
     });
 
-    return pendingReportsRefs;
+    this.reportsQueue.add('cancel', reports, { removeOnComplete: true });
   }
 
   async claimReportsByIds(

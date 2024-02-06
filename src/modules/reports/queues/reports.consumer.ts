@@ -12,6 +12,16 @@ import { Worker } from 'worker_threads';
 import { MessageDTO } from '../worker_threads/ballance.worker';
 import { ErrorReportEntity } from '../entities/error-report.entity';
 
+interface IReportDTO {
+  id: number;
+  filename: string;
+  created_at: Date;
+  updated_at: Date;
+  status: $Enums.Status;
+  scheduled: boolean;
+  delivery_at: Date;
+}
+
 @Processor('reports')
 export class ReportsConsumer {
   constructor(
@@ -34,9 +44,11 @@ export class ReportsConsumer {
       },
     });
 
-    const reqReportsRefs: Job<MessageDTO>[] = await this.reportsQueue.getJobs([
-      'waiting',
-    ]);
+    const reqReportsRefs: Job<MessageDTO>[] = await this.reportsQueue.getJobs(
+      ['waiting'],
+      0,
+      10,
+    );
 
     const data = reqReportsRefs.map((req) => req.data);
 
@@ -74,21 +86,31 @@ export class ReportsConsumer {
         values.map((id) => {
           const job = reqReportsRefs.find((req) => req.data.id === id);
 
-          new Promise((resolve, reject) => {
+          new Promise(async (resolve, reject) => {
             if (job) {
               if (key === 'ok') {
-                return resolve(job.moveToCompleted());
+                await job.moveToCompleted();
+                resolve;
               } else if (key === 'error') {
-                return resolve(job.moveToFailed({ message: 'try-again' }));
+                await job.moveToFailed({ message: 'try-again' });
+                resolve;
               }
             }
 
-            return reject('[Report] Job not found!');
+            reject('[Report] Job not found!');
           });
         });
       }
     });
 
     ballanceWorker.postMessage(data);
+  }
+
+  @Process('cancel')
+  async cancel(job: Job<number[]>) {
+    await this.prismaService.report.updateMany({
+      where: { id: { in: job.data }, status: $Enums.Status.PENDING },
+      data: { status: $Enums.Status.ABORTED },
+    });
   }
 }

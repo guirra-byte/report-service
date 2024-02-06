@@ -3,17 +3,18 @@ import { MessageDTO } from './ballance.worker';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { reportOutDir } from 'src/config/report-path.config';
+import { Row } from 'read-excel-file/node';
 
-const baseTxt = `\n Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \n`;
+// const baseTxt = `\n Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+// Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+// Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \n`;
 
-parentPort.on('message', (args: MessageDTO[]) => {
-  for (const arg of args) {
-    const filePath = path.resolve(reportOutDir, `${arg.filename}.txt`);
+parentPort.on('message', (args: { msg: MessageDTO; row: Row[] }) => {
+  for (const row of args.row) {
+    const filePath = path.resolve(reportOutDir, `${args.msg.filename}.txt`);
     fs.writeFile(
       filePath,
-      `${arg.id} - ${new Date().toISOString()}\n`,
+      `${args.msg.id} - ${new Date().toISOString()}\n`,
       (err) => {
         if (err) {
           throw err;
@@ -36,15 +37,12 @@ parentPort.on('message', (args: MessageDTO[]) => {
     };
 
     chunks.on('error', () => {
-      lineResults(workerKey, 'error', arg.id);
+      lineResults(workerKey, 'error', args.msg.id);
     });
 
     chunks.on('data', () => {
-      for (let pointer = 0; pointer < 1e6; pointer++) {
-        overwriteChunks.write(baseTxt);
-      }
-
-      lineResults(workerKey, 'ok', arg.id);
+      overwriteChunks.write(row);
+      lineResults(workerKey, 'ok', args.msg.id);
     });
 
     overwriteChunks.on('finish', () => {
